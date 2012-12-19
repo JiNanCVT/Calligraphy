@@ -1,0 +1,138 @@
+﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="CalligraphyModel" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityType Name="T_Author">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        <Property Name="Description" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        <Property Name="IsDeleted" Type="Edm.Boolean" />
+        <NavigationProperty Name="T_Rubbing" Relationship="CalligraphyModel.FK_T_BeiTie_T_ZuoZhe" ToRole="T_Rubbing" FromRole="T_Author" />
+      </EntityType>
+      <EntityType Name="T_Dynast">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="IsDeleted" Type="Edm.Boolean" />
+        <NavigationProperty Name="T_Rubbing" Relationship="CalligraphyModel.FK_T_BeiTie_T_ChaoDai" ToRole="T_Rubbing" FromRole="T_Dynast" />
+      </EntityType>
+      <EntityType Name="T_Photo">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="ContentType" Type="Edm.String" MaxLength="20" FixedLength="true" Unicode="true" />
+        <Property Name="FileSize" Type="Edm.Int64" />
+        <Property Name="DateTimeAdded" Type="Edm.DateTime" Precision="3" />
+        <Property Name="Width" Type="Edm.Double" />
+        <Property Name="Height" Type="Edm.Double" />
+        <NavigationProperty Name="T_RubbingPhoto" Relationship="CalligraphyModel.FK_T_RubbingPhoto_T_Photo" ToRole="T_RubbingPhoto" FromRole="T_Photo" />
+      </EntityType>
+      <EntityType Name="T_Rubbing">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        <Property Name="DynastID" Type="Edm.Int32" />
+        <Property Name="AuthorID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Collector" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        <Property Name="Description" Type="Edm.String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        <Property Name="IsDeleted" Type="Edm.Boolean" />
+        <NavigationProperty Name="T_Author" Relationship="CalligraphyModel.FK_T_BeiTie_T_ZuoZhe" ToRole="T_Author" FromRole="T_Rubbing" />
+        <NavigationProperty Name="T_Dynast" Relationship="CalligraphyModel.FK_T_BeiTie_T_ChaoDai" ToRole="T_Dynast" FromRole="T_Rubbing" />
+        <NavigationProperty Name="T_RubbingPhoto" Relationship="CalligraphyModel.FK_T_RubbingPhoto_T_Rubbing" ToRole="T_RubbingPhoto" FromRole="T_Rubbing" />
+      </EntityType>
+      <EntityType Name="T_RubbingPhoto">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" p6:StoreGeneratedPattern="Identity" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" MaxLength="3" FixedLength="true" Unicode="true" />
+        <Property Name="PageNumber" Type="Edm.Int32" />
+        <Property Name="RubbingID" Type="Edm.Int32" />
+        <Property Name="PhotoID" Type="Edm.Int32" />
+        <Property Name="IsDeleted" Type="Edm.Boolean" />
+        <NavigationProperty Name="T_Photo" Relationship="CalligraphyModel.FK_T_RubbingPhoto_T_Photo" ToRole="T_Photo" FromRole="T_RubbingPhoto" />
+        <NavigationProperty Name="T_Rubbing" Relationship="CalligraphyModel.FK_T_RubbingPhoto_T_Rubbing" ToRole="T_Rubbing" FromRole="T_RubbingPhoto" />
+      </EntityType>
+      <Association Name="FK_T_BeiTie_T_ZuoZhe">
+        <End Type="CalligraphyModel.T_Author" Role="T_Author" Multiplicity="1" />
+        <End Type="CalligraphyModel.T_Rubbing" Role="T_Rubbing" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="T_Author">
+            <PropertyRef Name="ID" />
+          </Principal>
+          <Dependent Role="T_Rubbing">
+            <PropertyRef Name="AuthorID" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="FK_T_BeiTie_T_ChaoDai">
+        <End Type="CalligraphyModel.T_Dynast" Role="T_Dynast" Multiplicity="0..1" />
+        <End Type="CalligraphyModel.T_Rubbing" Role="T_Rubbing" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="T_Dynast">
+            <PropertyRef Name="ID" />
+          </Principal>
+          <Dependent Role="T_Rubbing">
+            <PropertyRef Name="DynastID" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="FK_T_RubbingPhoto_T_Photo">
+        <End Type="CalligraphyModel.T_Photo" Role="T_Photo" Multiplicity="0..1" />
+        <End Type="CalligraphyModel.T_RubbingPhoto" Role="T_RubbingPhoto" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="T_Photo">
+            <PropertyRef Name="ID" />
+          </Principal>
+          <Dependent Role="T_RubbingPhoto">
+            <PropertyRef Name="PhotoID" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="FK_T_RubbingPhoto_T_Rubbing">
+        <End Type="CalligraphyModel.T_Rubbing" Role="T_Rubbing" Multiplicity="0..1" />
+        <End Type="CalligraphyModel.T_RubbingPhoto" Role="T_RubbingPhoto" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="T_Rubbing">
+            <PropertyRef Name="ID" />
+          </Principal>
+          <Dependent Role="T_RubbingPhoto">
+            <PropertyRef Name="RubbingID" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+    </Schema>
+    <Schema Namespace="CalligraphyEntities" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityContainer Name="CalligraphyEntities" m:IsDefaultEntityContainer="true" p6:LazyLoadingEnabled="false" xmlns:p6="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntitySet Name="T_Author" EntityType="CalligraphyModel.T_Author" />
+        <EntitySet Name="T_Dynast" EntityType="CalligraphyModel.T_Dynast" />
+        <EntitySet Name="T_Photo" EntityType="CalligraphyModel.T_Photo" />
+        <EntitySet Name="T_Rubbing" EntityType="CalligraphyModel.T_Rubbing" />
+        <EntitySet Name="T_RubbingPhoto" EntityType="CalligraphyModel.T_RubbingPhoto" />
+        <AssociationSet Name="FK_T_BeiTie_T_ZuoZhe" Association="CalligraphyModel.FK_T_BeiTie_T_ZuoZhe">
+          <End Role="T_Author" EntitySet="T_Author" />
+          <End Role="T_Rubbing" EntitySet="T_Rubbing" />
+        </AssociationSet>
+        <AssociationSet Name="FK_T_BeiTie_T_ChaoDai" Association="CalligraphyModel.FK_T_BeiTie_T_ChaoDai">
+          <End Role="T_Dynast" EntitySet="T_Dynast" />
+          <End Role="T_Rubbing" EntitySet="T_Rubbing" />
+        </AssociationSet>
+        <AssociationSet Name="FK_T_RubbingPhoto_T_Photo" Association="CalligraphyModel.FK_T_RubbingPhoto_T_Photo">
+          <End Role="T_Photo" EntitySet="T_Photo" />
+          <End Role="T_RubbingPhoto" EntitySet="T_RubbingPhoto" />
+        </AssociationSet>
+        <AssociationSet Name="FK_T_RubbingPhoto_T_Rubbing" Association="CalligraphyModel.FK_T_RubbingPhoto_T_Rubbing">
+          <End Role="T_Rubbing" EntitySet="T_Rubbing" />
+          <End Role="T_RubbingPhoto" EntitySet="T_RubbingPhoto" />
+        </AssociationSet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
