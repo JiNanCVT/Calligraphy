@@ -1,0 +1,26 @@
+﻿<Window x:Class="CalligraphyEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="书法教学软件内容管理工具" Height="400" Width="400"  WindowState="Maximized" WindowStartupLocation="CenterScreen">
+   
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition  Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Label Content="书法教学内容管理"   FontSize="20" FontWeight="Bold" />
+            <Label Name="Lbl_Path" VerticalAlignment="Bottom" />
+        </StackPanel> 
+        
+        <ToolBarTray  Grid.Row="1">
+            <ToolBar   VerticalAlignment="Stretch" Height="40">
+                <Button Content="主页" Name="Btn_Home" Click="Btn_Home_Click"/>
+                <Button Content="添加" Name ="Btn_Add" Click="Btn_Add_Click"/>
+                <Button Content="删除" Name ="Btn_delete" Click="Btn_delete_Click"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Frame Name="Frm_Content" Grid.Row="2" Background="Gray" Navigated="Frm_Content_Navigated" />
+    </Grid>
+</Window>
