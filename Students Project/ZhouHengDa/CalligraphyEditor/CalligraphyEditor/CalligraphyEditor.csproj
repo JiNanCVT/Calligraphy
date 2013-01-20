@@ -179,7 +179,10 @@
       <DependentUpon>DevWPhoto.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalligraphyData\DoNotSerializeAttribute.cs" />
+    <Compile Include="ImageDecoder.cs" />
+    <Compile Include="ImageQueue.cs" />
     <Compile Include="IPage.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="PRubbings.xaml.cs">
       <DependentUpon>PRubbings.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ShowPhotoAndText.xaml.cs">
+      <DependentUpon>ShowPhotoAndText.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\VMAuthors.cs" />
     <Compile Include="ViewModel\VMPhotos.cs" />
@@ -235,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PRubbings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowPhotoAndText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

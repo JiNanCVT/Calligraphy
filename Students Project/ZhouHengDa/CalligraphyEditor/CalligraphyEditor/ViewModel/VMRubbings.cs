@@ -355,6 +355,16 @@ namespace CalligraphyEditor.ViewModel
             if (!string.IsNullOrEmpty(errorMsg))
                 return errorMsg;
 
+            MainViewModel mvm = new MainViewModel(photoPaths);
+            //foreach (var p in photoPaths)
+            //{
+            //    if(p!=null)
+            //    mvm.Images.Add(p);
+            //}
+            ShowPhotoAndText spt = new ShowPhotoAndText();
+            spt.DataContext = mvm;
+            spt.ShowDialog();
+
             CalligraphyEditor.App.Entities.AddToT_Rubbing(rubbing);
             CalligraphyEditor.App.Entities.SaveChanges();
             var q = from f in photoPaths orderby f select f;
