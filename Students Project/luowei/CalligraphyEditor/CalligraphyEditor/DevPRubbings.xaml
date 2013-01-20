@@ -1,0 +1,40 @@
+﻿<Page xmlns:my="clr-namespace:DevExpress.Xpf.Grid;assembly=DevExpress.Xpf.Grid.v12.1"  x:Class="CalligraphyEditor.DevPRubbings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="碑帖">
+
+    <Grid >
+      <my:GridControl ItemsSource="{Binding}" Name="Gdc_Rubbings">
+            <my:GridControl.Columns>
+                <my:GridColumn FieldName="Name" Header="名称">
+                    <my:GridColumn.EditSettings >
+                        <dxe:TextEditSettings  TextWrapping="Wrap"/>
+                    </my:GridColumn.EditSettings>
+                </my:GridColumn>
+                <my:GridColumn FieldName="Description" Header="简介">
+                    <my:GridColumn.EditSettings >
+                        <dxe:TextEditSettings  TextWrapping="Wrap"/>
+                    </my:GridColumn.EditSettings>
+                </my:GridColumn>
+                <my:GridColumn  Header="碑帖图片" AllowFocus="False" >
+                    <my:GridColumn.CellTemplate>
+                        <DataTemplate>
+
+                            <Image  Width="200" Height="240"  Source="{Binding Path=Data.RandomRubbingPhoto}" MouseLeftButtonUp="Image_MouseLeftButtonUp" TouchUp="Image_TouchUp" />
+                            
+                        </DataTemplate>
+                    </my:GridColumn.CellTemplate>
+                </my:GridColumn>
+            </my:GridControl.Columns>
+
+            <my:GridControl.View>
+                <my:CardView AllowEditing="True" ShowGroupedColumns="True" NavigationStyle="Cell" FixedSize="250" MinFixedSize="150" Name="view" CardHeaderDisplayMemberBinding="{Binding Path=Data.Name, RelativeSource={RelativeSource Self}}" CellValueChanged="view_CellValueChanged" />
+            </my:GridControl.View>
+        </my:GridControl>
+    </Grid>
+</Page>
