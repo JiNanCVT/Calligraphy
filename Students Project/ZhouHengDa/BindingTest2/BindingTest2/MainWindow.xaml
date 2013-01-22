@@ -1,0 +1,41 @@
+﻿<Window x:Class="BindingTest2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="525"
+        xmlns:vm="clr-namespace:BindingTest2">
+    <Window.Resources>
+        <vm:VMStudent x:Key="svm"/>
+    </Window.Resources>
+    <Grid x:Name="layoutRoot" RenderTransformOrigin="0.924,0.872" DataContext="{Binding Source={StaticResource svm},Path=Students3}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="210"></ColumnDefinition>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+            <ColumnDefinition Width="210"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="500"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <vm:VMStudent x:Key="svm"/>
+            <DataTemplate x:Key="photoTemplate" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Width="90" Height="90" Source="{Binding PhotoBitmapImage1}" Stretch="UniformToFill" Grid.Column="0"/>
+                    <TextBlock Width="90" Height="90" Text="{Binding Name}"  Grid.Column="1"/>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="0" Grid.Row="0"  ItemTemplate="{StaticResource photoTemplate}" ItemsSource="{Binding}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Name="wrapPanel" HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Button Grid.ColumnSpan="3" Grid.Row="1"  Height="30" Width="60" Content="add" Click="Button_Click_1"/>
+    </Grid>
+</Window>

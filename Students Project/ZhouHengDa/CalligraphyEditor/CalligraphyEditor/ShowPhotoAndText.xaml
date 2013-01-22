@@ -3,20 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="上传碑帖图片" Height="600" Width="900"
         xmlns:local="clr-namespace:CalligraphyEditor"
+        xmlns:vm="clr-namespace:CalligraphyEditor.ViewModel"
         WindowStartupLocation="CenterScreen">
-    
-    <Grid>
-        <ListBox ItemsSource="{Binding Images}"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,75">
+    <Window.Resources>
+        <vm:VMRubbings x:Key="rvm"/>
+    </Window.Resources>
+    <!--<Window.Resources>
+        <DataTemplate>
+            <Grid>
+                
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>-->
+    <Grid DataContext="{Binding Source={StaticResource rvm},Path=rubbingPhotos}">
+        <ListBox ItemsSource="{Binding}"   ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,75">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid >
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="130"/>
+                            <RowDefinition Height="15"/>    
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
                         <!--<local:WaitingProgress Grid.Column="0"/>-->
-                        <Image Grid.Column="0" Stretch="UniformToFill" Width="130" Height="130" local:ImageDecoder.Source="{Binding}"></Image>
-                        <TextBlock Grid.Column="1" Text="test"></TextBlock>
+                        <Image Grid.Column="1" Grid.Row="1" Stretch="UniformToFill" local:ImageDecoder.Source="{Binding PhotoBitmapImage}"></Image>
+                        <TextBlock Name="tbk_yiWen" Grid.Column="3" Grid.Row="1" Text="{Binding Name}"></TextBlock>
+                        <TextBlock Name="tbk_nameOfPhoto" Grid.Column="1" Grid.Row="3" Text="{Binding PageNumber}"/>
+                        <TextBlock Name="tbk_nameOfYiWen" Grid.Column="3" Grid.Row="3"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -26,6 +47,6 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <Button Height="30" Width="70" Content="上传" Margin="757,511,65,28"/>
+        <Button Height="30" Width="70" Content="上传" Margin="757,511,65,28" Click="Button_Click_1"/>
     </Grid>
 </Window>

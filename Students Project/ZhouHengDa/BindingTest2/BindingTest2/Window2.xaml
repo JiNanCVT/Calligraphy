@@ -1,0 +1,22 @@
+﻿<Window x:Class="BindingTest2.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window2" Height="300" Width="300">
+    <Grid x:Name="layoutRoot" RenderTransformOrigin="0.924,0.872" >
+        <Grid.Resources>
+
+            <DataTemplate x:Key="photoTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Width="90" Height="90" Source="{Binding PhotoBitmapImage1}" Stretch="UniformToFill" Grid.Column="0"/>
+                    <TextBlock Width="90" Height="90" Text="{Binding Name}" Grid.Column="1"/>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ListBox Height="300" Width="300" ItemTemplate="{StaticResource photoTemplate}" ItemsSource="{Binding}"/>
+        <Button Height="30" Width="60" Content="add" Margin="425,268,32,21" />
+    </Grid>
+</Window>

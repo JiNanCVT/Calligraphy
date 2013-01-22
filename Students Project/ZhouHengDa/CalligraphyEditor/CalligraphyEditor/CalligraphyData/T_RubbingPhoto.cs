@@ -21,6 +21,7 @@ namespace CalligraphyEditor.CalligraphyData
                 }
                 return _photoBitmapImage;
             }
+            
         }
     }
 }

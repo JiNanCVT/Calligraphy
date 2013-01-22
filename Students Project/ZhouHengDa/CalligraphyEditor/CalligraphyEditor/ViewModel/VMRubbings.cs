@@ -16,7 +16,8 @@ namespace CalligraphyEditor.ViewModel
 {
     public class VMRubbings 
     {
-
+        public VMRubbings()
+        { }
         ObservableCollection<T_Rubbing> _Ocl_Rubbings;
 
         public ObservableCollection<T_Rubbing> Ocl_Rubbings
@@ -26,6 +27,15 @@ namespace CalligraphyEditor.ViewModel
                 return _Ocl_Rubbings;
             }
         }
+        ObservableCollection<T_RubbingPhoto> rubbingPhotos;
+
+        public ObservableCollection<T_RubbingPhoto> RubbingPhotos
+        {
+            get { return rubbingPhotos; }
+            set { rubbingPhotos = value; }
+        }
+
+        
 
         CollectionViewSource _Cvs_Rubbings;
 
@@ -243,6 +253,7 @@ namespace CalligraphyEditor.ViewModel
             foreach (var t in textPaths1)
             {
                 textPaths[i] = t;
+                i++;
             }
             return textPaths;
         }
@@ -322,10 +333,10 @@ namespace CalligraphyEditor.ViewModel
             }
 
             //检查文件夹中的文本文件命名是否正确
-            foreach (var textPath in textPaths)
+            for(i = 0;i<textPaths.Length;i++)
             {
-
-              string nameWithoutExtension = GetFileNameWithoutExtension(GetSafeFileName(textPath));
+                MessageBox.Show(textPaths.Length.ToString());
+              string nameWithoutExtension = GetFileNameWithoutExtension(GetSafeFileName(textPaths[i]));
               bool isInt = int.TryParse(nameWithoutExtension, out i);
               
               if (isInt == false )
@@ -355,32 +366,59 @@ namespace CalligraphyEditor.ViewModel
             if (!string.IsNullOrEmpty(errorMsg))
                 return errorMsg;
 
-            MainViewModel mvm = new MainViewModel(photoPaths);
+            //MainViewModel mvm = new MainViewModel(photoPaths);
             //foreach (var p in photoPaths)
             //{
             //    if(p!=null)
             //    mvm.Images.Add(p);
             //}
-            ShowPhotoAndText spt = new ShowPhotoAndText();
-            spt.DataContext = mvm;
-            spt.ShowDialog();
+            
 
             CalligraphyEditor.App.Entities.AddToT_Rubbing(rubbing);
             CalligraphyEditor.App.Entities.SaveChanges();
             var q = from f in photoPaths orderby f select f;
             photoPaths = q.ToArray<string>();
-            List<T_RubbingPhoto> rubbingPhotos = new List<T_RubbingPhoto>(photoPaths.Length);
+
+            rubbingPhotos = new ObservableCollection<T_RubbingPhoto>();
             int pageNumber = 1;
-            foreach (var photoPath in photoPaths)
+            int i,j;
+            for (i = 0, j = 0; i < Math.Max(photoPaths.Length, textPaths.Length) || j < Math.Max(photoPaths.Length, textPaths.Length); i++, j++)
             {
-                T_RubbingPhoto rubbingPhoto = UploadPhoto(photoPath);
-                if (rubbingPhoto != null)
+                if (j < textPaths.Length)
                 {
-                    rubbingPhoto.PageNumber = pageNumber;
-                    pageNumber++;
+                    string PhotoNameWithoutExtension = GetFileNameWithoutExtension(GetSafeFileName(photoPaths[i]));
+                    string TextNameWithoutExtension = GetFileNameWithoutExtension(GetSafeFileName(textPaths[j]));
+                    T_RubbingPhoto rubbingPhoto = UploadPhoto(photoPaths[i]);
+                    string txtString = GetTxtString(textPaths[j]);
+                    if (rubbingPhoto != null)
+                    {
+                        rubbingPhoto.PageNumber = pageNumber;
+                        pageNumber++;
+                        if (PhotoNameWithoutExtension.Equals(TextNameWithoutExtension))
+                        {
+                            rubbingPhoto.Name = txtString;
+                        }
+                    }
+                    MessageBox.Show(rubbingPhoto.PhotoBitmapImage);
                     rubbingPhotos.Add(rubbingPhoto);
                 }
-            }            
+            
+            }
+            Window1 w1 = new Window1();
+            w1.ShowDialog();
+            ShowPhotoAndText spt = new ShowPhotoAndText();
+            //spt.DataContext = mvm;
+            spt.ShowDialog();
+                //foreach (var photoPath in photoPaths)
+                //{
+                //    T_RubbingPhoto rubbingPhoto = UploadPhoto(photoPath);
+                //    if (rubbingPhoto != null)
+                //    {
+                //        rubbingPhoto.PageNumber = pageNumber;
+                //        pageNumber++;
+                //        rubbingPhotos.Add(rubbingPhoto);
+                //    }
+                //}            
 
             foreach (var rubbingPhoto in rubbingPhotos)
             {
@@ -395,6 +433,29 @@ namespace CalligraphyEditor.ViewModel
             _Ocl_Rubbings.Add(rubbing);
 
             return string.Empty;
+        }
+        public string GetTxtString(string txtPath)
+        {
+            StreamReader objReader = new StreamReader(txtPath);
+            string sLine = "";
+            List<string> LineList = new List<string>();
+            while (sLine != null)
+            {
+                sLine = objReader.ReadLine();
+                if (sLine != null && !sLine.Equals(""))
+                    LineList.Add(sLine);
+            }
+
+            objReader.Close();
+            int i;
+            string text = "";
+            for (i = 0; i < LineList.Count; i++)
+            {
+
+                text += LineList[i];
+            }
+                return text;
+
         }
 
         public void DeleteCurrentRubbing()
