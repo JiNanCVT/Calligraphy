@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace CutPhote.Entities
 {
     class BaseCopybook
     {
-        public BitmapImage _image;
+        private BitmapImage _image;
 
-        public double _imagewidth;
+        public BitmapImage Image
+        {
+            get { return _image; }
+            set { _image = value; }
+        }
 
-        public double _imageheight;
+        private double _image_basewidth;
+
+        public double Image_basewidth
+        {
+            get { return _image_basewidth; }
+            set { _image_basewidth = value; }
+        }
+
+        private double _image_baseheight;
+
+        public double Image_baseheight
+        {
+            get { return _image_baseheight; }
+            set { _image_baseheight = value; }
+        }
 
         public enum statuses
         {
@@ -25,25 +45,17 @@ namespace CutPhote.Entities
         public BaseCopybook()
         {
             _image = null;
-            _imagewidth = 0;
-            _imageheight = 0;
+            //_image_basewidth = 0;
+            //_image_baseheight = 0;
             _imagestatus = statuses.norm;
         }
 
-        //public event ProgressChangedEventHandler PropertyChanged;
+        public void BaseCopybookResetSet(Uri uri)
+        {
+            Image = new BitmapImage(uri);
+            Image_baseheight = Image.Height;
+            Image_basewidth = Image.Width;
+        }
 
-        //public void SetPropertyChanged(string propertyName)
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //}
-
-
-        //void BaseCopybook_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    _imageheight = _image.Height;
-        //    _imagewidth = _image.Width;
-        //}
- 
     }
 }
